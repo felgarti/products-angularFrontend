@@ -3,6 +3,7 @@ import {ProductService} from "../services/product.service";
 import {Product} from "../model/product.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthentificationService} from "../services/authentification.service";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-products',
@@ -19,7 +20,7 @@ export class ProductsComponent implements OnInit {
   currentAction : string="all" ;
 
 //1h06
-  constructor(  public  authService  : AuthentificationService,private  productService : ProductService , private fb : FormBuilder) {
+  constructor(  public  authService  : AuthentificationService,private  productService : ProductService , private fb : FormBuilder , private  router : Router) {
 
   }
 
@@ -108,5 +109,13 @@ this.handleGetPageProducts() ;
      this.handleSearchProducts() ;
    }
 
+  }
+
+  handleNewProduct() {
+this.router.navigateByUrl("admin/newProduct")
+  }
+
+  handleEditProduct(p: Product) {
+    this.router.navigateByUrl("admin/editProduct/"+p.id)
   }
 }
