@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {ProductService} from "../services/product.service";
-import {Product} from "../model/product.model";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ProductService} from "../../services/product.service";
+import {Product} from "../../model/product.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -14,7 +14,7 @@ export class EditProductComponent implements OnInit {
   productId! : string
   product! : Product
   productFormGroup! : FormGroup
-  constructor(private fb : FormBuilder , private route : ActivatedRoute , public  productService : ProductService) {
+  constructor(private fb : FormBuilder , private route : ActivatedRoute , private router : Router, public  productService : ProductService) {
     this.productId=this.route.snapshot.params['id'] ;
   }
 
@@ -37,9 +37,10 @@ this.productService.getProduct(this.productId).subscribe({
   handleUpdateProduct() {
 let p = this.productFormGroup.value ;
 p.id=this.product.id ;
-this.productService.updateProduct(p).subscribe({
+this.productService.updateProduct( p , p.id).subscribe({
   next : (prod)=>{
     alert('Product update successfully')
+    this.router.navigateByUrl('/admin/products')
   } , error: err => {
     console.log('error')
   }

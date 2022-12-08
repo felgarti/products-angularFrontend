@@ -2,28 +2,29 @@
   <nav class="p-2 m-2 ">
     <button class="btn btn-outline-info " *ngIf="authService.hasRole('ADMIN')" (click)="handleNewProduct()" >New Product</button>
   </nav>
-  <ng-template #errors>
-    <div class="text-danger">
-      {{errorMessage}}
-    </div>
-  </ng-template>
-  <div class="card " *ngIf="products; else errors">
-    <div class="card-header">
-      Products List
-    </div>
 
-    <div class="card-body">
-      {{searchFormGroup.value| json}}
-      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchProducts()">
-        <div class="input-group">
-          <label class="input-group-text">Keyword : </label>
-          <input type="text" class="form-control" formControlName="keyword">
-          <button class="btn btn-info">
-            <i class="bi bi-search"></i>
+<!--  <ng-template #errors>-->
+<!--    <div class="text-danger">-->
+<!--      {{errorMessage | json }}-->
+<!--    </div>-->
+<!--  </ng-template>-->
+<!--  <div class="card " *ngIf="products; else errors">-->
+<!--    <div class="card-header">-->
 
-          </button>
-        </div>
-      </form>
+<!--    </div>-->
+
+<!--    <div class="card-body">-->
+<!--      {{searchFormGroup.value| json}}-->
+<!--      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchProducts()">-->
+<!--        <div class="input-group">-->
+<!--          <label class="input-group-text">Keyword : </label>-->
+<!--          <input type="text" class="form-control" formControlName="keyword">-->
+<!--          <button class="btn btn-info">-->
+<!--            <i class="bi bi-search"></i>-->
+
+<!--          </button>-->
+<!--        </div>-->
+<!--      </form>-->
       <table class="table">
         <thead>
         <tr>
@@ -37,13 +38,12 @@
           <td>{{p.id}}</td>
           <td>{{p.name}}</td>
           <td>{{p.price}}</td>
-          <td>
-            <i *ngIf="p.promotion==true" class="bi bi-heart-fill"></i>
-          </td>
+
           <td *ngIf="authService.hasRole('ADMIN')">
-            <button (click)="handleSetPromotion(p)" [ngClass]="p.promotion==false  ?'btn-success':'btn-danger'" class="btn btn-success">
-              <span *ngIf="p.promotion==true"> Promo Off </span>
-              <span *ngIf="p.promotion==false"> Promo On </span></button>
+            <button (click)="handleSetPromotion(p)" class="btn">
+              <span *ngIf="p.promotion==true"><i class="bi bi-heart-fill text-success"></i></span>
+              <span *ngIf="p.promotion==false"><i class="bi bi-heart text-success"></i></span>
+            </button>
           </td>
           <td *ngIf="authService.hasRole('ADMIN')">
             <button (click)="handleDeleteProduct(p)" class="btn btn-danger"><i class=" bi bi-trash"></i></button>
@@ -56,11 +56,16 @@
         </tr>
         </tbody>
       </table>
+ <h1>   {{totalPages}}</h1>
+
       <ul class="nav nav-pills">
         <li *ngFor="let item of [].constructor(this.totalPages) ; let i = index ">
        <a  (click)="gotoPage(i)" [ngClass]="i==currentPage?'btn-info' : 'btn-outline-info'" class="btn  ms-1 mt-1">   {{i}} </a>
         </li>
       </ul>
-    </div>
-  </div>
+<!--    </div>-->
+<!--  </div>-->
 </div>
+
+
+
