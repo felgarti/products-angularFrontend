@@ -10,8 +10,8 @@ export class AuthentificationService {
 users : AppUser[]=[];
 authenticatedUser : AppUser|undefined ;
   constructor() {
-    this.users.push({userId : UUID.UUID() , username : "user1" , password : "1234" , roles :["USER"] }) ;
-    this.users.push({userId : UUID.UUID() , username : "user2" , password : "1234" , roles :["USER"] }) ;
+    this.users.push({userId : UUID.UUID() , username : "user1" , password : "1234" , roles :["USER" , "ADMIN" ] }) ;
+    this.users.push({userId : UUID.UUID() , username : "user2" , password : "1234" , roles :["USER" , "ADMIN" ] }) ;
     this.users.push({userId : UUID.UUID() , username : "admin" , password : "1234" , roles :["USER", "ADMIN"] }) ;
   }
   public  login(username : string , password : string ) : Observable<AppUser>
