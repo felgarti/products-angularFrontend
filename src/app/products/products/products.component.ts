@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthentificationService} from "../../services/authentification.service";
 import {Route, Router} from "@angular/router";
 import {Observable, of} from "rxjs";
+import {Customer} from "../../model/customer.model";
 
 @Component({
   selector: 'app-products',
@@ -48,6 +49,24 @@ this.handleGetPageProducts() ;
     }) ; ;
 
   }
+
+  handleSearchProducts() {
+    this.currentAction = "search";
+    let keyword = this.searchFormGroup.value.keyword;
+    if (keyword=="" || keyword==null){
+      this.handleGetPageProducts();
+    } else {
+      this.productService.getAllProducts().subscribe(
+        (p) => {
+          // @ts-ignore
+          let result : Product[] = p["_embedded"]["products"];
+          this.products = result.filter((prod) => prod.name.toLowerCase().includes(keyword.toLowerCase()));
+        }
+      )
+    }
+  }
+
+
   handleGetPageProducts()
   {
     let  index=this.currentPage*this.pageSize ;
@@ -104,31 +123,31 @@ this.handleGetPageProducts() ;
     )
   }
 
-  handleSearchProducts() {
-    this.currentPage=0 ;
-    this.currentAction="search" ;
-    let keyword = this.searchFormGroup.value.keyword ;
-    this.productService.searchProducts(keyword ,this.currentPage ,  this.pageSize).subscribe({
-      next :(value)=>{
-        this.currentPage=value.page
-        this.pageSize=value.size
-        this.totalPages= value.totalPages
-
-        value.products.subscribe({
-          next : data => {
-            // @ts-ignore
-            // @ts-ignore
-            this.products=data["_embedded"]["products"]
-            console.log(this.products[0])
-          } , error : err => {
-            console.log('lol error product')
-          }
-        }) ;
-
-      }
-    }) ;
-
-  }
+  // handleSearchProducts() {
+  //   this.currentPage=0 ;
+  //   this.currentAction="search" ;
+  //   let keyword = this.searchFormGroup.value.keyword ;
+  //   this.productService.searchProducts(keyword ,this.currentPage ,  this.pageSize).subscribe({
+  //     next :(value)=>{
+  //       this.currentPage=value.page
+  //       this.pageSize=value.size
+  //       this.totalPages= value.totalPages
+  //
+  //       value.products.subscribe({
+  //         next : data => {
+  //           // @ts-ignore
+  //           // @ts-ignore
+  //           this.products=data["_embedded"]["products"]
+  //           console.log(this.products[0])
+  //         } , error : err => {
+  //           console.log('lol error product')
+  //         }
+  //       }) ;
+  //
+  //     }
+  //   }) ;
+  //
+  // }
 
   gotoPage(i: number) {
     this.currentPage = i;
